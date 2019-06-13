@@ -15,17 +15,33 @@ The MembersView will contain the logic on how to:
 """
 class QueueView(APIView):
     def get(self, request):
-        # fill this method and update the return
-        result = None
+        if queue.size() > 0:
+            user = queue.dequeue()
+            name = user["name"]
+            result = "Se está atendiendo a " + name
+            sms = "Es tú turno"
+            queue.test_message(sms)
+            queue.send_message(user["phone"], sms)
+        else:
+            result = "La cola está vacia"
         return Response(result, status=status.HTTP_200_OK)
 
     def post(self, request):
-        # add a new member to the queue
-        result = None
+        new_user = json.loads(request.body)
+        queue.enqueue(new_user)
+        result = "Nuevo usuario agregado"
+        size_queue = str(queue.size()-1)
+        if size_queue == 1:
+            sms = "Hay " + size_queue + " persona antes que tú"
+        else:
+            sms = "Hay " + size_queue + " personas antes que tú"
+        queue.test_message(sms)
+        queue.send_message(new_user["phone"], sms)
         return Response(result, status=status.HTTP_200_OK)
 
 class QueueAllView(APIView):
     def get(self, request):
         # respond a json with all the queue items
-        result = None
+        all_queue = queue.get_all()
+        result = json.dumps(all_queue)
         return Response(result, status=status.HTTP_200_OK)

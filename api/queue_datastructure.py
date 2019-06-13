@@ -5,7 +5,7 @@ update this file to implement the following already declared methods:
 - get_all: should return the entire list as it is
 - size: Should return the total size of the list
 """
-from random import randint
+from twilio.rest import Client
 
 class Queue:
 
@@ -14,20 +14,34 @@ class Queue:
         # depending on the _mode, the queue has to behave like a FIFO or LIFO
         self._mode = mode
 
+    def test_message(self, message):
+        return print(message)
+
     def enqueue(self, item):
-        # fill this function with the logic needed to make it work
+        if self._mode == 'FIFO':
+            self._queue.append(item)
+        else:
+            self._queue.insert(0, item)
         pass
 
     def dequeue(self):
-        # fill this function with the logic needed to make it work
-        pass
+        user = self._queue.pop(0)
+        return user
 
     def get_all(self):
-
-        # fill this function with the logic needed to make it work
-        pass
+        return self._queue
 
     def size(self):
+        return len(self._queue)
 
-        # fill this function with the logic needed to make it work
-        pass
+    def send_message(self, phone, sms):
+        account_sid = 'ACbecb5dc9bd4fd5e960a810f64e1ff3eb'
+        auth_token = 'ae002bc14e3dc7dc867edfea4dea548a'
+        client = Client(account_sid, auth_token)
+        message = client.messages \
+                        .create(
+                            body= sms,
+                            from_='+12063508511',
+                            to= phone
+                            )
+        print("mensaje enviado")
