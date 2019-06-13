@@ -6,13 +6,9 @@ from rest_framework.serializers import ValidationError
 from api.queue_datastructure import Queue
 import json
 
-# initialize a 'Doe' family
 queue = Queue(mode='FIFO')
 
-"""
-The MembersView will contain the logic on how to:
- GET, POST, PUT or delete family members
-"""
+
 class QueueView(APIView):
     def get(self, request):
         if queue.size() > 0:

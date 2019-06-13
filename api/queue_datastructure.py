@@ -34,14 +34,16 @@ class Queue:
     def size(self):
         return len(self._queue)
 
+#add account_sid, auth token, and trial number of Twillio Account
+
     def send_message(self, phone, sms):
-        account_sid = 'ACbecb5dc9bd4fd5e960a810f64e1ff3eb'
-        auth_token = 'ae002bc14e3dc7dc867edfea4dea548a'
+        account_sid = ''
+        auth_token = ''
         client = Client(account_sid, auth_token)
         message = client.messages \
                         .create(
                             body= sms,
-                            from_='+12063508511',
+                            from_='', #trial number of Twillio
                             to= phone
                             )
         print("mensaje enviado")
