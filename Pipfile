@@ -18,6 +18,7 @@ django-rest-swagger = "*"
 redgreenunittest = "*"
 yapf = "*"
 twilio = "*"
+django = ">=2.2.2"
 
 [dev-packages]
 
